@@ -12,18 +12,15 @@ const phrases = [
 "Where there is love there is life"
 ];
 const ul = document.querySelector("ul");
-
-const regex = /^[a-zA-Z]+$/
-
-let listItems = []
-let guessedListItems = []
+let listItems = [];
+let guessedListItems = [];
+let letterArray = [];
 
 reset.addEventListener("click", () => {
 	//fades layover out, jquery
 	// $(startScreen).animate({opacity: 0});
-	startScreen.style.display = "none"
+	startScreen.style.display = "none";
 });
-
 
 function getRandomPhraseAsArray (arr) {
 	//picks random number from 0-4 for array index
@@ -43,21 +40,16 @@ function addPhraseToDisplay(myPhrase){
   	li.textContent += myPhrase[i];
   	//appends those elements to the ul
   	   ul.appendChild(li);
-
-  	   listItems.push(li)
+  	   listItems.push(li);
   	  // if the letter at index "i" is an empty string, " " 
   	  // give it the specified class
   	 if (myPhrase[i] == " "){
-  	 	 // li.classList.add("show", "letter")
-  	  	 li.classList.add("space")
-
-  			// newArry = myArr
+  	  	 li.classList.add("space");
   	   	 //if element is a ., no class
   	 	//change this to regex to filter out .
   	 } else if (myPhrase[i] == "." || myPhrase[i] == ","){
-  	 		li.classList.add("show")
+  	 		li.classList.add("show");
   	 		li.classList.add("letter");
-
   	 }
   	 //if letter, add class name letter
   	 else {
@@ -65,13 +57,10 @@ function addPhraseToDisplay(myPhrase){
   	 }
   }
   //return the list items of the letters
-  return myPhrase
-
+  return myPhrase;
 }
 
-
 function checkLetter(clickedLetter) {
-
   let letterFound = false;
     if (clickedLetter.tagName == "BUTTON"){
         clickedLetter.className = "chosen";
@@ -82,7 +71,6 @@ function checkLetter(clickedLetter) {
         li[i].classList.add("show");
         letterFound = true;
             } 
-            // guessedListItems.push(li[i]);
         }
   }
   if (letterFound) {
@@ -94,61 +82,47 @@ function checkLetter(clickedLetter) {
 }
 
 function checkWin() {
-	  // let items = document.querySelectorAll("li.letter")
-	  let myArr = []
-   const regex = /^[a-zA-Z]+$/
   function contains (item){
 	    return item.classList.contains("show");
 	}
-
-	function containsSpace (spaceItem){
-		return spaceItem.classList.contains("space")
+  function containsSpace (spaceItem){
+		return spaceItem.classList.contains("space");
 	}
-
   	if(missed == 5){
-  		alert("game over you suck")
+  		alert("You lose! Try again");
   		}
-
-  
-
   	if (letterArray.every(contains) && guessedListItems.every(containsSpace)){
-  		alert("you win!")
-
-  	} 
- 		
+  		alert("You win!");
+  	} 	
 }
-
-let letterArray = []
 
 qwerty.addEventListener('click', (e) => {
   		for (let i = 0 ; i < listItems.length ; i++){
   		 if (listItems[i].classList.contains("space")){
-  		 	 guessedListItems.push(listItems[i])
+  		 	 guessedListItems.push(listItems[i]);
  		}
  		else if (listItems[i].classList.contains("letter")){
- 			 	 letterArray.push(listItems[i])
+ 			 	 letterArray.push(listItems[i]);
  		} 		 
   	}
 }, {once: true});
 
-
 qwerty.addEventListener("click", (e) => {
   const clickedLetter = e.target;
   checkLetter(clickedLetter);
-  console.log(checkLetter(clickedLetter))
+  console.log(checkLetter(clickedLetter));
   if (checkLetter(clickedLetter)  == null){
   	missed+=1;
   	const ol = document.querySelector("ol");
   	const tries = document.querySelectorAll(".tries");
-  	 ul.children 
-  	ol.removeChild(tries[0])
-  	checkWin()
+  	 ul.children ;
+  	ol.removeChild(tries[0]);
+  	checkWin();
   }
   else {
-  	checkWin()
+  	checkWin();
   }
 });
-
 
 getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(myPhrase);
