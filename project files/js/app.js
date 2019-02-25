@@ -15,11 +15,18 @@ const ul = document.querySelector("ul");
 let listItems = [];
 let guessedListItems = [];
 let letterArray = [];
+const overlay = document.querySelector("#overlay")
+const buttons = document.querySelectorAll("button")
+
+// overlay.classList.add("win")
+// startScreen.style.display = "block";
 
 reset.addEventListener("click", () => {
 	//fades layover out, jquery
 	// $(startScreen).animate({opacity: 0});
 	startScreen.style.display = "none";
+	// getRandomPhraseAsArray(phrases);
+ //    addPhraseToDisplay(myPhrase);
 });
 
 function getRandomPhraseAsArray (arr) {
@@ -82,28 +89,58 @@ function checkLetter(clickedLetter) {
 }
 
 function checkWin() {
+  const h2 =  document.querySelector("h2");
   function contains (item){
 	    return item.classList.contains("show");
 	}
-  function containsSpace (spaceItem){
-		return spaceItem.classList.contains("space");
-	}
-  	if(missed == 5){
-  		alert("You lose! Try again");
+  	if(missed === 5){
+  		 h2.textContent = "You lose, try again!";
+  		 startScreen.style.display = "block";
+  		 startScreen.classList.add("lose");
+  	  	 reset.textContent = "New Game?";
+  	  	 newGame();
+
   		}
-  	if (letterArray.every(contains) && guessedListItems.every(containsSpace)){
-  		alert("You win!");
+  	else if (letterArray.every(contains)){
+  		startScreen.style.display = "block";
+  		startScreen.classList.add("win");
+  		h2.textContent = "You Win!";
+   	    reset.textContent = "New Game?";
+  		newGame();
+  		
   	} 	
+}
+
+
+
+
+function newGame(){
+	 missed = 0;
+  	 myPhrase = [];
+  	 for (let i = 0 ; i < listItems.length ; i++) {
+			ul.firstElementChild.remove();
+		}
+	listItems.length = 0
+	for (let i = 0 ; i < buttons.length ; i++){
+	    if (buttons[i].disabled ==  true) {
+	        buttons[i].disabled = false;
+	        buttons[i].classList.remove("chosen");
+	    }    
+	}
+	getRandomPhraseAsArray(phrases);
+	addPhraseToDisplay(myPhrase);
 }
 
 qwerty.addEventListener('click', (e) => {
   		for (let i = 0 ; i < listItems.length ; i++){
   		 if (listItems[i].classList.contains("space")){
+  		 	//guessedListItems now only contain spaces
   		 	 guessedListItems.push(listItems[i]);
  		}
  		else if (listItems[i].classList.contains("letter")){
- 			 	 letterArray.push(listItems[i]);
- 		} 		 
+ 			//lettersArray  now only contains letters
+ 			 letterArray.push(listItems[i]);
+ 		} 	
   	}
 }, {once: true});
 
@@ -115,7 +152,7 @@ qwerty.addEventListener("click", (e) => {
   	missed+=1;
   	const ol = document.querySelector("ol");
   	const tries = document.querySelectorAll(".tries");
-  	 ul.children ;
+  	ul.children ;
   	ol.removeChild(tries[0]);
   	checkWin();
   }
