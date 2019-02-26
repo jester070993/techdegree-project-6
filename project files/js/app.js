@@ -17,7 +17,7 @@ let guessedListItems = [];
 let letterArray = [];
 const overlay = document.querySelector("#overlay")
 const buttons = document.querySelectorAll("button")
-
+const hearts = document.querySelectorAll(".tries")
 // overlay.classList.add("win")
 // startScreen.style.display = "block";
 
@@ -68,6 +68,7 @@ function addPhraseToDisplay(myPhrase){
 }
 
 function checkLetter(clickedLetter) {
+
   let letterFound = false;
     if (clickedLetter.tagName == "BUTTON"){
         clickedLetter.className = "chosen";
@@ -80,6 +81,7 @@ function checkLetter(clickedLetter) {
             } 
         }
   }
+
   if (letterFound) {
   		return clickedLetter.textContent.toLowerCase();
   }
@@ -99,20 +101,15 @@ function checkWin() {
   		 startScreen.classList.add("lose");
   	  	 reset.textContent = "New Game?";
   	  	 newGame();
-
   		}
   	else if (letterArray.every(contains)){
   		startScreen.style.display = "block";
   		startScreen.classList.add("win");
   		h2.textContent = "You Win!";
    	    reset.textContent = "New Game?";
-  		newGame();
-  		
+  		newGame();		
   	} 	
 }
-
-
-
 
 function newGame(){
 	 missed = 0;
@@ -127,6 +124,11 @@ function newGame(){
 	        buttons[i].classList.remove("chosen");
 	    }    
 	}
+	const  ol = document.querySelector("ol")
+		for (let i = 0 ; i < hearts.length ; i++){
+		ol.appendChild(hearts[i]);
+		}
+	console.log(missed)
 	getRandomPhraseAsArray(phrases);
 	addPhraseToDisplay(myPhrase);
 }
@@ -146,6 +148,10 @@ qwerty.addEventListener('click', (e) => {
 
 qwerty.addEventListener("click", (e) => {
   const clickedLetter = e.target;
+  if (clickedLetter.tagName == "DIV"){
+  	//does not remove heart if user clicks on area around keyboard
+  		 return false
+  }
   checkLetter(clickedLetter);
   console.log(checkLetter(clickedLetter));
   if (checkLetter(clickedLetter)  == null){
