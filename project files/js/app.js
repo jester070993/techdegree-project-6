@@ -20,7 +20,6 @@ const buttons = document.querySelectorAll("button");
 const hearts = document.querySelectorAll(".tries");
 const h2 =  document.querySelector("h2");
 
-
 //removes initial display screen
 reset.addEventListener("click", () => {
 	startScreen.style.display = "none";
